@@ -19,7 +19,6 @@
             overflow: hidden; 
         }
 
-        /* ขยาย 125% บนคอมพิวเตอร์ และตัดขอบล่างส่วนเกินออก */
         @media (min-width: 768px) { 
             .app-container { 
                 zoom: 1.25; 
@@ -31,7 +30,6 @@
             } 
         }
 
-        /* แก้บัคหน้าจอซ้อนกัน: บังคับซ่อนหน้าเว็บทั้งหมดเป็นค่าเริ่มต้น */
         .page { display: none !important; min-height: 100vh; flex-direction: column; }
         .page.active { display: flex !important; }
 
@@ -59,12 +57,35 @@
 
         .form-group { width: 100%; margin-bottom: 15px; position: relative; text-align: left; }
         .form-group label { display: block; font-size: 13px; margin-bottom: 6px; color: #4a5568; font-weight: 600; }
-        .form-group input { width: 100%; padding: 12px 15px; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 15px; background-color: #fafbfc; outline: none; }
+        
+        /* ปรับสไตล์กล่องกรอกข้อมูลให้พื้นหลังฟ้าอ่อนและตัวหนังสือจางๆ ตามรูปตัวอย่าง */
+        .form-group input { 
+            width: 100%; 
+            padding: 14px 16px; 
+            border: 1px solid #bfdbfe; /* ขอบสีฟ้าจางๆ */
+            border-radius: 12px; 
+            font-size: 15px; 
+            background-color: #f8fafc; /* พื้นหลังสีฟ้าอ่อนมากๆ */
+            color: #1e293b;
+            outline: none; 
+            transition: all 0.2s;
+        }
+        
+        /* สีของข้อความตัวอย่างด้านใน (Placeholder) ให้ดูจางและกลมกลืน */
+        .form-group input::placeholder {
+            color: #94a3b8;
+            font-weight: 300;
+        }
+
+        .form-group input:focus {
+            border-color: #3b82f6;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
         
         .btn-submit { width: 100%; padding: 14px; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 10px; }
         .btn-student { background: linear-gradient(135deg, #4299e1 0%, #2b6cb0 100%); }
         .btn-admin { background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%); }
-        .note { font-size: 11px; color: #a0aec0; text-align: center; margin-top: 20px; line-height: 1.5; }
 
         /* Dashboard Common */
         .dashboard-wrapper { padding-bottom: 30px; background-color: #f3f6fc; }
@@ -76,7 +97,7 @@
         .header h2 { font-size: 18px; margin: 5px 0 10px 0; padding-right: 70px; }
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; margin-top: -25px; position: relative; z-index: 5; }
         .stat-card { background: white; padding: 15px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .stat-card input { width: 60px; padding: 5px; border: 1px solid #ccc; border-radius: 5px; text-align: center; font-size: 16px; font-weight: bold; }
+        .stat-card input { width: 60px; padding: 5px; border: 1px solid #ccc; border-radius: 5px; text-align: center; font-size: 16px; font-weight: bold; background: #fff !important; color: #333 !important; }
         
         /* Work List */
         .work-list-section { padding: 20px; }
@@ -138,11 +159,11 @@
             <form onsubmit="handleLogin(event, 'admin')" style="width: 100%;">
                 <div class="form-group">
                     <label>เลขประจำตัวครู</label>
-                    <input type="text" id="adm-user" placeholder="กรอกเลข 5 หลัก" required inputmode="numeric" oninput="validateNumber(this)">
+                    <input type="text" id="adm-user" placeholder="11111" required inputmode="numeric" oninput="validateNumber(this)">
                 </div>
                 <div class="form-group">
                     <label>รหัสผ่าน</label>
-                    <input type="password" id="adm-pass" placeholder="กรอกเลข 5 หลัก" required inputmode="numeric" oninput="validateNumber(this)">
+                    <input type="password" id="adm-pass" placeholder="11111" required inputmode="numeric" oninput="validateNumber(this)">
                 </div>
                 <button type="submit" class="btn-submit btn-admin">เข้าสู่ระบบ Admin</button>
             </form>
