@@ -7,9 +7,36 @@
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Prompt', sans-serif; }
-        body { background-color: #dbeafe; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: #333; }
-        .app-container { width: 100%; max-width: 400px; background-color: #f3f6fc; min-height: 100vh; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.05); border-radius: 30px; overflow: hidden; margin: 20px 0; }
-        @media (max-width: 480px) { .app-container { min-height: 100vh; border-radius: 0; margin: 0; } }
+        body { background-color: #dbeafe; display: flex; justify-content: center; min-height: 100vh; color: #333; }
+        
+        .app-container { 
+            width: 100%; 
+            max-width: 400px; 
+            background-color: #f3f6fc; 
+            min-height: 100vh; 
+            position: relative; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.05); 
+            border-radius: 30px; 
+            overflow: hidden; 
+            margin: 20px 0; 
+        }
+
+        /* ---------------------------------------------------
+           แก้ปัญหา "ถ้าในคอมให้มันขยายจอ 125" 
+           ขยายขนาดแอป 125% เมื่อเปิดบนจอคอมพิวเตอร์ (หน้าจอใหญ่กว่า 768px)
+        --------------------------------------------------- */
+        @media (min-width: 768px) { 
+            .app-container { 
+                transform: scale(1.25); 
+                transform-origin: top center; 
+                margin-top: 60px; /* เว้นระยะด้านบนตอนขยาย */
+                margin-bottom: 20vh; /* เว้นระยะด้านล่างตอนขยาย */
+            } 
+        }
+
+        @media (max-width: 480px) { 
+            .app-container { min-height: 100vh; border-radius: 0; margin: 0; } 
+        }
 
         /* การสลับหน้าจอ */
         .page { display: none; min-height: 100%; }
@@ -19,11 +46,11 @@
         .hamburger-btn { position: absolute; top: 20px; left: 20px; font-size: 24px; cursor: pointer; color: #4a5568; z-index: 10; background: none; border: none; padding: 5px; }
         
         /* Dropdown Menu */
-        .menu-dropdown { display: none; position: absolute; top: 60px; left: 20px; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 12px; padding: 10px; z-index: 20; }
+        .menu-dropdown { display: none; position: absolute; top: 60px; left: 20px; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 12px; padding: 10px; z-index: 20; min-width: 180px; }
         .menu-dropdown button { background: none; border: none; padding: 10px 15px; font-size: 14px; width: 100%; text-align: left; cursor: pointer; border-radius: 8px; color: #2b6cb0; font-weight: 600; }
         .menu-dropdown button:hover { background: #f3f6fc; }
 
-        /* Login Pages (Student & Admin) */
+        /* Login Pages */
         .login-wrapper { padding: 50px 30px; background: #ffffff; flex: 1; display: flex; flex-direction: column; align-items: center; }
         .icon-box { width: 90px; height: 90px; border-radius: 25px; display: flex; justify-content: center; align-items: center; font-size: 45px; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(43, 108, 176, 0.2); }
         .icon-student { background: linear-gradient(135deg, #4da3ff 0%, #2b6cb0 100%); }
@@ -36,13 +63,11 @@
         .form-group { width: 100%; margin-bottom: 20px; position: relative; }
         .form-group label { display: block; font-size: 13px; margin-bottom: 8px; color: #4a5568; font-weight: 600; }
         .form-group input { width: 100%; padding: 14px 15px; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 15px; background-color: #fafbfc; outline: none; }
-        .form-group input.input-error { border-color: #e53e3e; background-color: #fff5f5; }
         
         .btn-submit { width: 100%; padding: 15px; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 15px; }
         .btn-student { background: linear-gradient(135deg, #4299e1 0%, #2b6cb0 100%); }
         .btn-admin { background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%); }
         .note { font-size: 11px; color: #a0aec0; text-align: center; margin-top: 25px; line-height: 1.5; }
-        .back-btn { margin-top: 15px; background: none; border: none; color: #718096; text-decoration: underline; cursor: pointer; }
 
         /* Dashboard Common */
         .dashboard-wrapper { padding-bottom: 40px; background-color: #f3f6fc; }
@@ -79,10 +104,10 @@
         
         <!-- ================= 1. หน้า Login นักเรียน ================= -->
         <div id="page-login-student" class="page active login-wrapper">
-            <!-- ปุ่มขีด 3 ขีด -->
-            <button class="hamburger-btn" onclick="toggleMenu()">☰</button>
-            <div class="menu-dropdown" id="main-menu">
-                <button onclick="goToPage('page-login-admin'); toggleMenu()">👨‍🏫 เข้าสู่ระบบ Admin</button>
+            <!-- ปุ่ม 3 ขีด (หน้านักเรียน) -->
+            <button type="button" class="hamburger-btn" onclick="toggleMenu('menu-student')">☰</button>
+            <div class="menu-dropdown" id="menu-student">
+                <button type="button" onclick="switchToAdminLogin()">👨‍🏫 เข้าสู่ระบบ Admin</button>
             </div>
 
             <div class="icon-box icon-student">🎓</div>
@@ -104,7 +129,14 @@
         </div>
 
         <!-- ================= 2. หน้า Login ครู (Admin) ================= -->
+        <!-- หน้านี้จะซ่อนอยู่ตลอดจนกว่าจะกด 3 ขีดจากหน้านักเรียน -->
         <div id="page-login-admin" class="page login-wrapper">
+            <!-- ปุ่ม 3 ขีด (หน้า Admin) -->
+            <button type="button" class="hamburger-btn" onclick="toggleMenu('menu-admin')">☰</button>
+            <div class="menu-dropdown" id="menu-admin">
+                <button type="button" onclick="switchToStudentLogin()">🎓 สลับเป็นหน้านักเรียน</button>
+            </div>
+
             <div class="icon-box icon-admin">🔐</div>
             <div class="login-title">
                 <h1>เข้าสู่ระบบจัดการ</h1>
@@ -121,13 +153,12 @@
                 </div>
                 <button type="submit" class="btn-submit btn-admin">เข้าสู่ระบบ Admin</button>
             </form>
-            <button class="back-btn" onclick="goToPage('page-login-student')">กลับหน้าของนักเรียน</button>
         </div>
 
         <!-- ================= 3. หน้า Dashboard นักเรียน ================= -->
         <div id="page-dashboard-student" class="page dashboard-wrapper">
             <div class="header header-student">
-                <button class="btn-logout" onclick="logout()">ออกจากระบบ</button>
+                <button type="button" class="btn-logout" onclick="logout()">ออกจากระบบ</button>
                 <p>สวัสดี 👋</p>
                 <h2 id="stu-name-display">กำลังโหลด...</h2>
                 <div class="sub-info" id="stu-info-display"></div>
@@ -155,7 +186,7 @@
         <!-- ================= 4. หน้า รายชื่อนักเรียน (Admin) ================= -->
         <div id="page-admin-list" class="page dashboard-wrapper">
             <div class="header header-admin">
-                <button class="btn-logout" onclick="logout()">ออกจากระบบ</button>
+                <button type="button" class="btn-logout" onclick="logout()">ออกจากระบบ</button>
                 <p>ระบบจัดการของครู</p>
                 <h2>รายชื่อนักเรียนทั้งหมด</h2>
             </div>
@@ -167,7 +198,7 @@
         <!-- ================= 5. หน้า แก้ไขข้อมูลนักเรียน (Admin) ================= -->
         <div id="page-admin-edit" class="page dashboard-wrapper">
             <div class="header header-admin">
-                <button class="btn-logout" style="right: auto; left: 20px; top: 25px;" onclick="goToPage('page-admin-list')">⬅ กลับ</button>
+                <button type="button" class="btn-logout" style="right: auto; left: 20px; top: 25px;" onclick="goToPage('page-admin-list', false)">⬅ กลับ</button>
                 <p style="margin-top: 30px;">โหมดแก้ไขข้อมูล</p>
                 <h2 id="adm-name-display">ชื่อนักเรียน</h2>
             </div>
@@ -194,7 +225,8 @@
                 <div class="work-card" id="adm-task-list">
                     <!-- รายการงานของครูจะถูกสร้างที่นี่โดย JS -->
                 </div>
-                <button class="btn-add" onclick="addTask()">➕ เพิ่มงานใหม่</button>
+                <!-- ใส่ type="button" เพื่อแก้บัคเด้งขึ้นบนสุดเวลาแก้ข้อมูล -->
+                <button type="button" class="btn-add" onclick="addTask()">➕ เพิ่มงานใหม่</button>
             </div>
         </div>
 
@@ -222,25 +254,38 @@
             }
         };
 
-        // โหลดข้อมูลจาก localStorage (ถ้ามี) หรือใช้ข้อมูลเริ่มต้น
         let schoolData = JSON.parse(localStorage.getItem('schoolAppData')) || defaultData;
-        let currentEditingStudent = null; // เก็บว่าตอนนี้ครูกำลังแก้ข้อมูลใคร
+        let currentEditingStudent = null; 
 
-        // ฟังก์ชันเซฟข้อมูลลงเครื่อง
         function saveData() {
             localStorage.setItem('schoolAppData', JSON.stringify(schoolData));
         }
 
         // ================= UI & Navigation =================
-        function toggleMenu() {
-            const menu = document.getElementById('main-menu');
+        function toggleMenu(menuId) {
+            const menu = document.getElementById(menuId);
             menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
         }
 
-        function goToPage(pageId) {
+        // สลับไปหน้า Admin Login
+        function switchToAdminLogin() {
+            document.getElementById('menu-student').style.display = 'none';
+            goToPage('page-login-admin', true);
+        }
+
+        // สลับกลับไปหน้า Student Login
+        function switchToStudentLogin() {
+            document.getElementById('menu-admin').style.display = 'none';
+            goToPage('page-login-student', true);
+        }
+
+        // ฟังก์ชันเปลี่ยนหน้า (รับ parameter ว่าให้เลื่อนขึ้นบนสุดไหม ป้องกันบัคเด้ง)
+        function goToPage(pageId, scrollToTop = false) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
-            window.scrollTo(0,0);
+            if (scrollToTop) {
+                window.scrollTo(0, 0);
+            }
         }
 
         function validateNumber(input) { input.value = input.value.replace(/[^0-9]/g, ''); }
@@ -248,7 +293,7 @@
         function logout() {
             document.querySelectorAll('input').forEach(input => input.value = '');
             currentEditingStudent = null;
-            goToPage('page-login-student');
+            goToPage('page-login-student', true); // ล็อกเอาท์ให้เลื่อนกลับไปบนสุด
         }
 
         // ================= Login System =================
@@ -260,7 +305,7 @@
                 
                 if (schoolData[user] && schoolData[user].pin === pass) {
                     renderStudentDashboard(user);
-                    goToPage('page-dashboard-student');
+                    goToPage('page-dashboard-student', true);
                 } else {
                     alert("เลขประจำตัวหรือรหัสผ่านไม่ถูกต้อง");
                 }
@@ -270,7 +315,7 @@
                 
                 if (user === "11111" && pass === "11111") {
                     renderAdminStudentList();
-                    goToPage('page-admin-list');
+                    goToPage('page-admin-list', true);
                 } else {
                     alert("ข้อมูล Admin ไม่ถูกต้อง");
                 }
@@ -303,7 +348,6 @@
             const listContainer = document.getElementById('admin-student-list');
             listContainer.innerHTML = '';
             
-            // วนลูปรายชื่อเด็กทุกคนในระบบ
             for (const id in schoolData) {
                 const student = schoolData[id];
                 listContainer.innerHTML += `
@@ -327,7 +371,7 @@
             document.getElementById('edit-pending').value = data.pending;
             
             renderAdminTaskList();
-            goToPage('page-admin-edit');
+            goToPage('page-admin-edit', true); 
         }
 
         function renderAdminTaskList() {
@@ -340,26 +384,23 @@
                     <div class="work-item">
                         <div class="work-item-left" onclick="editTaskText(${index})">
                             <div class="work-number">${task.w}</div>
-                            <!-- กดที่ชื่อเพื่อแก้ -->
                             <div class="work-name" style="text-decoration: underline dashed #ccc; color: #2b6cb0;">
                                 ${task.text}
                             </div>
                         </div>
-                        <!-- ปุ่มลบ -->
-                        <button class="btn-delete" onclick="deleteTask(${index})">➖</button>
+                        <!-- ใส่ type="button" ป้องกันการรีเฟรชหน้าแล้วเด้งกลับบนสุด -->
+                        <button type="button" class="btn-delete" onclick="deleteTask(${index})">➖</button>
                     </div>
                 `;
             });
         }
 
-        // ฟังก์ชันแก้ไขจำนวนงาน
         function updateStat(type, value) {
             if(!currentEditingStudent) return;
             schoolData[currentEditingStudent][type] = parseInt(value) || 0;
             saveData();
         }
 
-        // ฟังก์ชันแก้ไขชื่อรายละเอียดงาน
         function editTaskText(index) {
             const data = schoolData[currentEditingStudent];
             const oldText = data.tasks[index].text;
@@ -368,18 +409,16 @@
             if (newText !== null && newText.trim() !== "") {
                 data.tasks[index].text = newText;
                 saveData();
-                renderAdminTaskList();
+                renderAdminTaskList(); // วาดใหม่โดยไม่เลื่อนจอ
             }
         }
 
-        // ฟังก์ชันเพิ่มงานใหม่
         function addTask() {
             const data = schoolData[currentEditingStudent];
             
-            // หาเลข W ล่าสุด
             let nextWNum = 1;
             if (data.tasks.length > 0) {
-                const lastTaskW = data.tasks[data.tasks.length - 1].w; // เช่น "W7"
+                const lastTaskW = data.tasks[data.tasks.length - 1].w; 
                 nextWNum = parseInt(lastTaskW.replace('W', '')) + 1;
             }
 
@@ -389,15 +428,14 @@
             });
             
             saveData();
-            renderAdminTaskList();
+            renderAdminTaskList(); // วาดใหม่โดยไม่เลื่อนจอ
         }
 
-        // ฟังก์ชันลบงาน
         function deleteTask(index) {
             if(confirm("ยืนยันการลบงานนี้?")) {
                 schoolData[currentEditingStudent].tasks.splice(index, 1);
                 saveData();
-                renderAdminTaskList();
+                renderAdminTaskList(); // วาดใหม่โดยไม่เลื่อนจอ
             }
         }
     </script>
