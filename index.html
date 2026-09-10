@@ -12,30 +12,23 @@
         .app-container { 
             width: 100%; 
             max-width: 400px; 
-            background-color: #f3f6fc; 
-            min-height: 100vh; 
+            background-color: #ffffff; 
             position: relative; 
-            box-shadow: 0 0 20px rgba(0,0,0,0.05); 
+            box-shadow: 0 4px 25px rgba(0,0,0,0.08); 
             overflow: hidden; 
         }
 
+        /* บนคอมพิวเตอร์: ขยาย 125% และตัดขอบโค้งสวยงาม พอดีเนื้อหา ไม่ให้มีพื้นที่ว่างยาว */
         @media (min-width: 768px) { 
             .app-container { 
                 zoom: 1.25; 
                 margin: 20px 0; 
-                border-radius: 30px; 
-                min-height: 700px;
-                max-height: 90vh;
-                overflow-y: auto;
+                border-radius: 24px; 
             } 
         }
 
-        .page { display: none !important; min-height: 100vh; flex-direction: column; }
+        .page { display: none !important; flex-direction: column; }
         .page.active { display: flex !important; }
-
-        @media (min-width: 768px) { 
-            .page { min-height: auto; } 
-        }
 
         /* Hamburger Menu */
         .hamburger-btn { position: absolute; top: 20px; left: 20px; font-size: 24px; cursor: pointer; color: #4a5568; z-index: 100; background: none; border: none; padding: 5px; }
@@ -46,7 +39,7 @@
         .menu-dropdown button:hover { background: #f3f6fc; }
 
         /* Login Pages */
-        .login-wrapper { padding: 40px 30px; background: #ffffff; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .login-wrapper { padding: 50px 30px; background: #ffffff; align-items: center; width: 100%; }
         .icon-box { width: 80px; height: 80px; border-radius: 22px; display: flex; justify-content: center; align-items: center; font-size: 40px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(43, 108, 176, 0.2); }
         .icon-student { background: linear-gradient(135deg, #4da3ff 0%, #2b6cb0 100%); }
         .icon-admin { background: linear-gradient(135deg, #f6ad55 0%, #dd6b20 100%); box-shadow: 0 10px 20px rgba(221, 107, 32, 0.2); }
@@ -58,28 +51,26 @@
         .form-group { width: 100%; margin-bottom: 15px; position: relative; text-align: left; }
         .form-group label { display: block; font-size: 13px; margin-bottom: 6px; color: #4a5568; font-weight: 600; }
         
-        /* ปรับสไตล์กล่องกรอกข้อมูลให้พื้นหลังฟ้าอ่อนและตัวหนังสือจางๆ ตามรูปตัวอย่าง */
+        /* สไตล์ช่องกรอกข้อมูล: พื้นหลังฟ้าอ่อน ขอบฟ้าจางๆ ตัวหนังสือ placeholder จาง */
         .form-group input { 
             width: 100%; 
             padding: 14px 16px; 
-            border: 1px solid #bfdbfe; /* ขอบสีฟ้าจางๆ */
+            border: 1px solid #bfdbfe !important; 
             border-radius: 12px; 
             font-size: 15px; 
-            background-color: #f8fafc; /* พื้นหลังสีฟ้าอ่อนมากๆ */
+            background-color: #f8fafc !important; 
             color: #1e293b;
             outline: none; 
-            transition: all 0.2s;
         }
         
-        /* สีของข้อความตัวอย่างด้านใน (Placeholder) ให้ดูจางและกลมกลืน */
         .form-group input::placeholder {
             color: #94a3b8;
             font-weight: 300;
         }
 
         .form-group input:focus {
-            border-color: #3b82f6;
-            background-color: #ffffff;
+            border-color: #3b82f6 !important;
+            background-color: #ffffff !important;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
         
@@ -88,7 +79,7 @@
         .btn-admin { background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%); }
 
         /* Dashboard Common */
-        .dashboard-wrapper { padding-bottom: 30px; background-color: #f3f6fc; }
+        .dashboard-wrapper { background-color: #f3f6fc; min-height: 100vh; padding-bottom: 30px; }
         .header { color: white; padding: 25px 20px; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; margin-bottom: 20px; position: relative; }
         .header-student { background: linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%); }
         .header-admin { background: linear-gradient(135deg, #dd6b20 100%, #c05621 100%); }
@@ -413,6 +404,9 @@
         }
 
         function updateStat(type, value) {
+            if(!currentEditingSessionStudent) {
+                // อัปเดตข้อมูลปกติผ่าน currentEditingStudent
+            }
             if(!currentEditingStudent) return;
             schoolData[currentEditingStudent][type] = parseInt(value) || 0;
             saveData();
