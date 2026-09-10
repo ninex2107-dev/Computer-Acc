@@ -18,7 +18,6 @@
             overflow: hidden; 
         }
 
-        /* บนคอมพิวเตอร์: ขยาย 125% และตัดขอบโค้งสวยงาม พอดีเนื้อหา ไม่ให้มีพื้นที่ว่างยาว */
         @media (min-width: 768px) { 
             .app-container { 
                 zoom: 1.25; 
@@ -54,7 +53,7 @@
         /* สไตล์ช่องกรอกข้อมูล: พื้นหลังฟ้าอ่อน ขอบฟ้าจางๆ ตัวหนังสือ placeholder จาง */
         .form-group input { 
             width: 100%; 
-            padding: 14px 16px; 
+            padding: 14px 45px 14px 16px; /* เผื่อพื้นที่ด้านขวาให้รูปตา */
             border: 1px solid #bfdbfe !important; 
             border-radius: 12px; 
             font-size: 15px; 
@@ -72,6 +71,20 @@
             border-color: #3b82f6 !important;
             background-color: #ffffff !important;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* สไตล์ไอคอนรูปตา */
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 38px;
+            cursor: pointer;
+            font-size: 18px;
+            color: #94a3b8;
+            user-select: none;
+        }
+        .toggle-password:hover {
+            color: #4a5568;
         }
         
         .btn-submit { width: 100%; padding: 14px; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 10px; }
@@ -130,6 +143,7 @@
                 <div class="form-group">
                     <label>PIN 4 หลัก</label>
                     <input type="password" id="stu-pass" placeholder="กรอก PIN 4 หลัก" required inputmode="numeric" oninput="validateNumber(this)">
+                    <span class="toggle-password" onclick="togglePasswordVisibility('stu-pass')">👁️</span>
                 </div>
                 <button type="submit" class="btn-submit btn-student">เข้าสู่ระบบ</button>
             </form>
@@ -155,6 +169,7 @@
                 <div class="form-group">
                     <label>รหัสผ่าน</label>
                     <input type="password" id="adm-pass" placeholder="11111" required inputmode="numeric" oninput="validateNumber(this)">
+                    <span class="toggle-password" onclick="togglePasswordVisibility('adm-pass')">👁️</span>
                 </div>
                 <button type="submit" class="btn-submit btn-admin">เข้าสู่ระบบ Admin</button>
             </form>
@@ -281,6 +296,16 @@
             }
         }
 
+        // ฟังก์ชันเปิด-ปิดตา (Toggle Password)
+        function togglePasswordVisibility(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+            } else {
+                passwordInput.type = 'password';
+            }
+        }
+
         function switchToAdminLogin() {
             document.getElementById('menu-student').style.display = 'none';
             goToPage('page-login-admin', true);
@@ -304,6 +329,9 @@
 
         function logout() {
             document.querySelectorAll('input').forEach(input => input.value = '');
+            // รีเซ็ต type ของ input รหัสผ่านให้กลับเป็นซ่อนดาว/จุด
+            document.getElementById('stu-pass').type = 'password';
+            document.getElementById('adm-pass').type = 'password';
             currentEditingStudent = null;
             goToPage('page-login-student', true);
         }
@@ -404,9 +432,6 @@
         }
 
         function updateStat(type, value) {
-            if(!currentEditingSessionStudent) {
-                // อัปเดตข้อมูลปกติผ่าน currentEditingStudent
-            }
             if(!currentEditingStudent) return;
             schoolData[currentEditingStudent][type] = parseInt(value) || 0;
             saveData();
