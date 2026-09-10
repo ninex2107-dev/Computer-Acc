@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ระบบตรวจสอบงานและคะแนน</title>
-    <!-- ใช้ฟอนต์ Prompt จาก Google Fonts เพื่อให้เหมือนในภาพ -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -21,7 +20,6 @@
             color: #333;
         }
 
-        /* จำลองหน้าจอแบบมือถือ */
         .app-container {
             width: 100%;
             max-width: 480px;
@@ -114,7 +112,7 @@
 
         /* ------------------ หน้า Dashboard ------------------ */
         #dashboard-page {
-            display: none; /* ซ่อนไว้ก่อน จะแสดงเมื่อ Login ผ่าน */
+            display: none; 
             padding-bottom: 40px;
         }
 
@@ -125,10 +123,31 @@
             border-bottom-left-radius: 30px;
             border-bottom-right-radius: 30px;
             margin-bottom: 20px;
+            position: relative; /* เพิ่มบรรทัดนี้เพื่อให้อ้างอิงตำแหน่งปุ่มได้ */
+        }
+
+        /* สไตล์ปุ่มออกจากระบบ */
+        .btn-logout {
+            position: absolute;
+            top: 25px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: background 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .header p { font-size: 14px; opacity: 0.9; }
-        .header h2 { font-size: 20px; margin: 5px 0 10px 0; }
+        .header h2 { font-size: 20px; margin: 5px 0 10px 0; padding-right: 80px; } /* เว้นที่ขวาไว้ไม่ให้ตัวหนังสือทับปุ่ม */
         .header .sub-info { font-size: 13px; opacity: 0.8; }
 
         .stats-grid {
@@ -239,13 +258,15 @@
         <!-- ================= หน้า Dashboard ================= -->
         <div id="dashboard-page">
             <div class="header">
+                <!-- เพิ่มปุ่มออกจากระบบที่นี่ -->
+                <button class="btn-logout" onclick="handleLogout()">ออกจากระบบ</button>
+                
                 <p>สวัสดี 👋</p>
                 <h2>เด็กชายณัฏฐ์วรัชญ์ มาดีประเสริฐ</h2>
                 <div class="sub-info">ชั้น ม.1/14 • เลขที่ 6 • เลขประจำตัว 26490</div>
             </div>
 
             <div class="stats-grid">
-                <!-- กล่องที่ 1: ส่งแล้ว 3/7 -->
                 <div class="stat-card">
                     <div class="stat-icon icon-green">✅</div>
                     <p>งานที่ส่งแล้ว</p>
@@ -253,7 +274,6 @@
                     <div class="sub-text">จากงานทั้งหมด 7 งาน</div>
                 </div>
 
-                <!-- กล่องที่ 2: ค้าง 4 งาน -->
                 <div class="stat-card">
                     <div class="stat-icon icon-red">📌</div>
                     <p>งานค้างส่ง</p>
@@ -299,26 +319,34 @@
         </div>
     </div>
 
-    <!-- Script สำหรับจัดการ Login -->
     <script>
+        // ฟังก์ชันเข้าสู่ระบบ
         function handleLogin(event) {
-            // ป้องกันไม่ให้หน้าเว็บ Refresh เมื่อกด Submit
             event.preventDefault(); 
-            
-            // ดึงค่าที่กรอกมา
             const user = document.getElementById("username").value;
             const pass = document.getElementById("password").value;
 
-            // ตรวจสอบ User และ Password ตามที่กำหนด
             if (user === "26490" && pass === "9999") {
-                // ถ้าถูก: ซ่อนหน้า Login และแสดงหน้า Dashboard
                 document.getElementById("login-page").style.display = "none";
                 document.getElementById("dashboard-page").style.display = "block";
-                window.scrollTo(0, 0); // เลื่อนขึ้นบนสุด
+                window.scrollTo(0, 0); 
             } else {
-                // ถ้าผิด: แจ้งเตือน
                 alert("เลขประจำตัวหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง");
             }
+        }
+
+        // ฟังก์ชันออกจากระบบ (เพิ่มเข้ามาใหม่)
+        function handleLogout() {
+            // เคลียร์ค่าในช่องกรอก
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+            
+            // สลับกลับไปหน้า Login
+            document.getElementById("dashboard-page").style.display = "none";
+            document.getElementById("login-page").style.display = "flex";
+            
+            // เลื่อนจอขึ้นบนสุด
+            window.scrollTo(0, 0); 
         }
     </script>
 </body>
