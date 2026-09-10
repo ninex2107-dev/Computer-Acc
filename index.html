@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ระบบตรวจสอบงานและคะแนน</title>
+    <!-- ใช้ฟอนต์ Prompt จาก Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -14,19 +15,36 @@
         }
 
         body {
-            background-color: #f3f6fc;
+            /* สีพื้นหลังของทั้งหน้าจอ (เมื่อดูบนจอใหญ่) */
+            background-color: #dbeafe; 
             display: flex;
             justify-content: center;
+            align-items: center; /* ให้อยู่ตรงกลางจอในแนวตั้งด้วย */
+            min-height: 100vh;
             color: #333;
         }
 
+        /* ------------------ กรอบหลักของแอป ------------------ */
         .app-container {
             width: 100%;
-            max-width: 480px;
+            max-width: 400px; /* ปรับให้แคบลงตามรูปที่ 2 */
             background-color: #f3f6fc;
             min-height: 100vh;
             position: relative;
             box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            /* เพิ่มขอบมนและพื้นหลังสำหรับหน้า Login (ให้ดูเป็นกล่องแบบรูป 2) */
+            border-radius: 30px; 
+            overflow: hidden; 
+            margin: 20px 0; /* เว้นระยะบนล่างเวลามองในจอใหญ่ */
+        }
+
+        /* สำหรับมือถือ ให้แสดงเต็มจอ */
+        @media (max-width: 480px) {
+            .app-container {
+                min-height: 100vh;
+                border-radius: 0;
+                margin: 0;
+            }
         }
 
         /* ------------------ หน้า Login ------------------ */
@@ -34,59 +52,80 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 40px 20px;
-            background: linear-gradient(180deg, #ffffff 0%, #f3f6fc 100%);
-            min-height: 100vh;
+            padding: 50px 30px; /* เพิ่ม padding ซ้ายขวา ให้กล่อง input ดูแคบลง */
+            background: #ffffff; /* พื้นหลังสีขาวตามรูป 2 */
+            min-height: 100%;
         }
 
         .icon-box {
-            width: 80px;
-            height: 80px;
+            width: 90px; /* ปรับขนาดไอคอนนิดหน่อย */
+            height: 90px;
             background: linear-gradient(135deg, #4da3ff 0%, #2b6cb0 100%);
-            border-radius: 20px;
+            border-radius: 25px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 40px;
-            margin-bottom: 20px;
+            font-size: 45px;
+            margin-bottom: 25px;
             box-shadow: 0 10px 20px rgba(43, 108, 176, 0.2);
         }
 
         .login-title {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
         }
-        .login-title h1 { font-size: 22px; color: #1a202c; }
-        .login-title p { font-size: 14px; color: #718096; margin-top: 5px; }
+        .login-title h1 { font-size: 20px; color: #1a202c; font-weight: 700; line-height: 1.4; }
+        .login-title p { font-size: 14px; color: #718096; margin-top: 8px; }
 
         .form-group {
             width: 100%;
             margin-bottom: 20px;
+            position: relative; /* สำคัญสำหรับจัดตำแหน่งไอคอนตา */
         }
         
         .form-group label {
             display: block;
-            font-size: 14px;
+            font-size: 13px;
             margin-bottom: 8px;
             color: #4a5568;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .form-group input {
             width: 100%;
-            padding: 15px;
+            padding: 14px 15px; /* ปรับ padding ให้กล่องดูเล็กลง */
             border: 1px solid #e2e8f0;
             border-radius: 12px;
-            font-size: 16px;
+            font-size: 15px;
             background-color: #fafbfc;
             outline: none;
             transition: all 0.3s;
+        }
+
+        /* ถ้ามีการใส่คลาส input-error จะเปลี่ยนสีขอบเป็นสีแดง */
+        .form-group input.input-error {
+            border-color: #e53e3e;
+            background-color: #fff5f5;
         }
 
         .form-group input:focus {
             border-color: #3182ce;
             background-color: #fff;
             box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+        }
+
+        /* สไตล์สำหรับไอคอนตา (Toggle Password) */
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 40px; /* ปรับตำแหน่งให้อยู่ตรงกลางช่อง input */
+            cursor: pointer;
+            font-size: 18px;
+            color: #a0aec0;
+            user-select: none; /* ป้องกันการคลุมดำไอคอน */
+        }
+        .toggle-password:hover {
+            color: #4a5568;
         }
 
         .btn-submit {
@@ -99,21 +138,29 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 10px;
-            box-shadow: 0 4px 15px rgba(66, 153, 225, 0.4);
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(66, 153, 225, 0.3);
+            transition: transform 0.1s;
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
         }
 
         .note {
-            font-size: 12px;
+            font-size: 11px;
             color: #a0aec0;
             text-align: center;
-            margin-top: 20px;
+            margin-top: 25px;
+            line-height: 1.5;
         }
 
         /* ------------------ หน้า Dashboard ------------------ */
         #dashboard-page {
             display: none; 
             padding-bottom: 40px;
+            background-color: #f3f6fc; /* พื้นหลังหน้า Dashboard */
+            min-height: 100vh;
         }
 
         .header {
@@ -123,10 +170,9 @@
             border-bottom-left-radius: 30px;
             border-bottom-right-radius: 30px;
             margin-bottom: 20px;
-            position: relative; /* เพิ่มบรรทัดนี้เพื่อให้อ้างอิงตำแหน่งปุ่มได้ */
+            position: relative; 
         }
 
-        /* สไตล์ปุ่มออกจากระบบ */
         .btn-logout {
             position: absolute;
             top: 25px;
@@ -147,7 +193,7 @@
         }
 
         .header p { font-size: 14px; opacity: 0.9; }
-        .header h2 { font-size: 20px; margin: 5px 0 10px 0; padding-right: 80px; } /* เว้นที่ขวาไว้ไม่ให้ตัวหนังสือทับปุ่ม */
+        .header h2 { font-size: 20px; margin: 5px 0 10px 0; padding-right: 80px; } 
         .header .sub-info { font-size: 13px; opacity: 0.8; }
 
         .stats-grid {
@@ -234,19 +280,24 @@
         <div id="login-page">
             <div class="icon-box">🎓</div>
             <div class="login-title">
-                <h1>ระบบตรวจสอบงานและคะแนน</h1>
+                <h1>ระบบตรวจสอบงานและ<br>คะแนน</h1>
                 <p>สำหรับนักเรียน</p>
             </div>
 
             <form onsubmit="handleLogin(event)" style="width: 100%;">
                 <div class="form-group">
                     <label>เลขประจำตัวนักเรียน</label>
-                    <input type="text" id="username" placeholder="กรอกเลขประจำตัว 5 หลัก" required>
+                    <!-- inputmode="numeric" และ pattern="[0-9]*" ช่วยเรียกคีย์บอร์ดตัวเลขในมือถือ -->
+                    <input type="text" id="username" placeholder="กรอกเลขประจำตัว 5 หลัก" required
+                           inputmode="numeric" pattern="[0-9]*" oninput="validateNumber(this)">
                 </div>
                 
                 <div class="form-group">
                     <label>Password / PIN</label>
-                    <input type="password" id="password" placeholder="กรอก PIN 4 หลัก" required>
+                    <input type="password" id="password" placeholder="กรอก PIN 4 หลัก" required
+                           inputmode="numeric" pattern="[0-9]*" oninput="validateNumber(this)">
+                    <!-- ไอคอนรูปตา สำหรับเปิด-ปิด รหัสผ่าน -->
+                    <span class="toggle-password" onclick="togglePasswordVisibility()">👁️</span>
                 </div>
 
                 <button type="submit" class="btn-submit">เข้าสู่ระบบ</button>
@@ -258,7 +309,6 @@
         <!-- ================= หน้า Dashboard ================= -->
         <div id="dashboard-page">
             <div class="header">
-                <!-- เพิ่มปุ่มออกจากระบบที่นี่ -->
                 <button class="btn-logout" onclick="handleLogout()">ออกจากระบบ</button>
                 
                 <p>สวัสดี 👋</p>
@@ -282,7 +332,6 @@
                 </div>
             </div>
 
-            <!-- รายการงาน W1 - W7 -->
             <div class="work-list-section">
                 <div class="section-title">📋 สถานะงานของฉัน</div>
                 <div class="work-card">
@@ -320,32 +369,69 @@
     </div>
 
     <script>
+        // ฟังก์ชันดักจับการพิมพ์ ให้พิมพ์ได้เฉพาะตัวเลข (0-9)
+        function validateNumber(input) {
+            // แทนที่อักขระใดๆ ที่ไม่ใช่ 0-9 ด้วยค่าว่าง
+            input.value = input.value.replace(/[^0-9]/g, '');
+        }
+
+        // ฟังก์ชันเปิด-ปิดตา (Toggle Password)
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.querySelector('.toggle-password');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                // สามารถเปลี่ยนไอคอนเป็นรูปลืมตา/หลับตาได้ตรงนี้
+                // (ใช้ Emoji เพื่อความง่ายในการไม่ต้องโหลดไอคอนเพิ่ม)
+                // แต่ถ้าใช้ FontAwesome ก็จะเป็นคลาส fa-eye-slash
+            } else {
+                passwordInput.type = 'password';
+            }
+        }
+
         // ฟังก์ชันเข้าสู่ระบบ
         function handleLogin(event) {
             event.preventDefault(); 
             const user = document.getElementById("username").value;
             const pass = document.getElementById("password").value;
 
+            // ตรวจสอบข้อมูลล็อกอิน
             if (user === "26490" && pass === "9999") {
+                // ถ้าถูก ให้เคลียร์คลาส error ถ้ามี
+                document.getElementById("username").classList.remove("input-error");
+                document.getElementById("password").classList.remove("input-error");
+                
+                // สลับหน้าจอ
                 document.getElementById("login-page").style.display = "none";
                 document.getElementById("dashboard-page").style.display = "block";
+                
+                // บังคับให้เป็นประเภท password เสมอเมื่อเข้าสู่ระบบสำเร็จ (เผื่อเปิดตาไว้)
+                document.getElementById("password").type = 'password'; 
+                
                 window.scrollTo(0, 0); 
             } else {
+                // ถ้าผิด เพิ่มคลาส error ให้กล่อง input กลายเป็นขอบแดง
+                document.getElementById("username").classList.add("input-error");
+                document.getElementById("password").classList.add("input-error");
                 alert("เลขประจำตัวหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง");
             }
         }
 
-        // ฟังก์ชันออกจากระบบ (เพิ่มเข้ามาใหม่)
+        // ฟังก์ชันออกจากระบบ
         function handleLogout() {
-            // เคลียร์ค่าในช่องกรอก
             document.getElementById("username").value = "";
             document.getElementById("password").value = "";
             
-            // สลับกลับไปหน้า Login
+            // ลบคลาส error ออกเผื่อล็อกเอาท์ออกมา
+            document.getElementById("username").classList.remove("input-error");
+            document.getElementById("password").classList.remove("input-error");
+            
+            // เปลี่ยน input รหัสผ่านกลับไปซ่อนเป็นจุด (เผื่อเปิดตาค้างไว้)
+            document.getElementById("password").type = 'password'; 
+
             document.getElementById("dashboard-page").style.display = "none";
             document.getElementById("login-page").style.display = "flex";
-            
-            // เลื่อนจอขึ้นบนสุด
             window.scrollTo(0, 0); 
         }
     </script>
