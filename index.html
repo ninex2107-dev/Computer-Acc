@@ -164,11 +164,11 @@
             <form onsubmit="handleLogin(event, 'admin')" style="width: 100%;">
                 <div class="form-group">
                     <label>เลขประจำตัวครู</label>
-                    <input type="text" id="adm-user" placeholder="11111" required inputmode="numeric" oninput="validateNumber(this)">
+                    <input type="text" id="adm-user" placeholder="กรอกเลข 5 หลัก" required inputmode="numeric" oninput="validateNumber(this)">
                 </div>
                 <div class="form-group">
                     <label>รหัสผ่าน</label>
-                    <input type="password" id="adm-pass" placeholder="11111" required inputmode="numeric" oninput="validateNumber(this)">
+                    <input type="password" id="adm-pass" placeholder="กรอก PIN 4 หลัก" required inputmode="numeric" oninput="validateNumber(this)">
                     <span class="toggle-password" onclick="togglePasswordVisibility('adm-pass')">👁️</span>
                 </div>
                 <button type="submit" class="btn-submit btn-admin">เข้าสู่ระบบ Admin</button>
@@ -352,7 +352,7 @@
                 const user = document.getElementById('adm-user').value;
                 const pass = document.getElementById('adm-pass').value;
                 
-                if (user === "11111" && pass === "11111") {
+                if (user === "11111" && pass === "1111") {
                     renderAdminStudentList();
                     goToPage('page-admin-list', true);
                 } else {
