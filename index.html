@@ -19,23 +19,25 @@
             overflow: hidden; 
         }
 
-        /* ---------------------------------------------------
-           แก้ปัญหา "ขอบล่างยาว" และ "ขยาย 125% ในคอม"
-        --------------------------------------------------- */
+        /* ขยาย 125% บนคอมพิวเตอร์ และตัดขอบล่างส่วนเกินออก */
         @media (min-width: 768px) { 
             .app-container { 
-                zoom: 1.25; /* ใช้ zoom แทน transform หน้าจอจะไม่เหลือขอบล่าง */
-                margin: 40px 0; 
-                min-height: auto; /* ตัดขอบล่างทิ้ง */
-                border-radius: 30px; /* ให้มีมุมโค้งเฉพาะบนคอม */
+                zoom: 1.25; 
+                margin: 20px 0; 
+                border-radius: 30px; 
+                min-height: 700px;
+                max-height: 90vh;
+                overflow-y: auto;
             } 
-            .login-wrapper { min-height: 80vh !important; justify-content: center; } 
         }
 
-        /* การสลับหน้าจอ */
-        .page { display: none; min-height: 100vh; }
-        .page.active { display: flex; flex-direction: column; }
-        @media (min-width: 768px) { .page { min-height: auto; } }
+        /* แก้บัคหน้าจอซ้อนกัน: บังคับซ่อนหน้าเว็บทั้งหมดเป็นค่าเริ่มต้น */
+        .page { display: none !important; min-height: 100vh; flex-direction: column; }
+        .page.active { display: flex !important; }
+
+        @media (min-width: 768px) { 
+            .page { min-height: auto; } 
+        }
 
         /* Hamburger Menu */
         .hamburger-btn { position: absolute; top: 20px; left: 20px; font-size: 24px; cursor: pointer; color: #4a5568; z-index: 100; background: none; border: none; padding: 5px; }
@@ -46,40 +48,40 @@
         .menu-dropdown button:hover { background: #f3f6fc; }
 
         /* Login Pages */
-        .login-wrapper { padding: 50px 30px; background: #ffffff; flex: 1; display: flex; flex-direction: column; align-items: center; }
-        .icon-box { width: 90px; height: 90px; border-radius: 25px; display: flex; justify-content: center; align-items: center; font-size: 45px; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(43, 108, 176, 0.2); }
+        .login-wrapper { padding: 40px 30px; background: #ffffff; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .icon-box { width: 80px; height: 80px; border-radius: 22px; display: flex; justify-content: center; align-items: center; font-size: 40px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(43, 108, 176, 0.2); }
         .icon-student { background: linear-gradient(135deg, #4da3ff 0%, #2b6cb0 100%); }
         .icon-admin { background: linear-gradient(135deg, #f6ad55 0%, #dd6b20 100%); box-shadow: 0 10px 20px rgba(221, 107, 32, 0.2); }
         
-        .login-title { text-align: center; margin-bottom: 35px; }
-        .login-title h1 { font-size: 20px; color: #1a202c; font-weight: 700; line-height: 1.4; }
-        .login-title p { font-size: 14px; color: #718096; margin-top: 8px; }
+        .login-title { text-align: center; margin-bottom: 25px; }
+        .login-title h1 { font-size: 18px; color: #1a202c; font-weight: 700; line-height: 1.4; }
+        .login-title p { font-size: 13px; color: #718096; margin-top: 5px; }
 
-        .form-group { width: 100%; margin-bottom: 20px; position: relative; }
-        .form-group label { display: block; font-size: 13px; margin-bottom: 8px; color: #4a5568; font-weight: 600; }
-        .form-group input { width: 100%; padding: 14px 15px; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 15px; background-color: #fafbfc; outline: none; }
+        .form-group { width: 100%; margin-bottom: 15px; position: relative; text-align: left; }
+        .form-group label { display: block; font-size: 13px; margin-bottom: 6px; color: #4a5568; font-weight: 600; }
+        .form-group input { width: 100%; padding: 12px 15px; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 15px; background-color: #fafbfc; outline: none; }
         
-        .btn-submit { width: 100%; padding: 15px; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 15px; }
+        .btn-submit { width: 100%; padding: 14px; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 10px; }
         .btn-student { background: linear-gradient(135deg, #4299e1 0%, #2b6cb0 100%); }
         .btn-admin { background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%); }
-        .note { font-size: 11px; color: #a0aec0; text-align: center; margin-top: 25px; line-height: 1.5; }
+        .note { font-size: 11px; color: #a0aec0; text-align: center; margin-top: 20px; line-height: 1.5; }
 
         /* Dashboard Common */
         .dashboard-wrapper { padding-bottom: 30px; background-color: #f3f6fc; }
-        .header { color: white; padding: 30px 20px; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; margin-bottom: 20px; position: relative; }
+        .header { color: white; padding: 25px 20px; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; margin-bottom: 20px; position: relative; }
         .header-student { background: linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%); }
-        .header-admin { background: linear-gradient(135deg, #dd6b20 0%, #c05621 100%); }
-        .btn-logout { position: absolute; top: 25px; right: 20px; background: rgba(255, 255, 255, 0.15); color: white; border: 1px solid rgba(255, 255, 255, 0.3); padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; z-index: 10; }
+        .header-admin { background: linear-gradient(135deg, #dd6b20 100%, #c05621 100%); }
+        .btn-logout { position: absolute; top: 20px; right: 20px; background: rgba(255, 255, 255, 0.15); color: white; border: 1px solid rgba(255, 255, 255, 0.3); padding: 5px 10px; border-radius: 8px; font-size: 12px; cursor: pointer; z-index: 10; }
         
-        .header h2 { font-size: 20px; margin: 5px 0 10px 0; padding-right: 80px; }
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; margin-top: -30px; position: relative; z-index: 5; }
-        .stat-card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .header h2 { font-size: 18px; margin: 5px 0 10px 0; padding-right: 70px; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; margin-top: -25px; position: relative; z-index: 5; }
+        .stat-card { background: white; padding: 15px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .stat-card input { width: 60px; padding: 5px; border: 1px solid #ccc; border-radius: 5px; text-align: center; font-size: 16px; font-weight: bold; }
         
         /* Work List */
         .work-list-section { padding: 20px; }
         .work-card { background: white; border-radius: 15px; padding: 10px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
-        .work-item { padding: 15px 0; border-bottom: 1px solid #edf2f7; display: flex; align-items: center; justify-content: space-between; }
+        .work-item { padding: 12px 0; border-bottom: 1px solid #edf2f7; display: flex; align-items: center; justify-content: space-between; }
         .work-item-left { display: flex; align-items: center; flex: 1; }
         .work-number { font-weight: 600; color: #4a5568; width: 45px; }
         .work-name { color: #2d3748; font-size: 14px; flex: 1; cursor: pointer; padding-right: 10px; }
@@ -89,7 +91,7 @@
         .btn-delete { background: #fee2e2; color: #ef4444; border: none; width: 30px; height: 30px; border-radius: 8px; font-weight: bold; cursor: pointer; }
         .btn-add { background: #dcfce7; color: #22c55e; border: none; width: 100%; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 5px; }
         
-        .student-list-item { background: white; padding: 20px; border-radius: 15px; margin: 0 20px 15px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .student-list-item { background: white; padding: 15px 20px; border-radius: 15px; margin: 0 20px 12px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
     </style>
 </head>
 <body>
@@ -105,7 +107,7 @@
 
             <div class="icon-box icon-student">🎓</div>
             <div class="login-title">
-                <h1>ระบบตรวจสอบงานและ<br>คะแนน</h1>
+                <h1>ระบบตรวจสอบงานและคะแนน</h1>
                 <p>สำหรับนักเรียน</p>
             </div>
             <form onsubmit="handleLogin(event, 'student')" style="width: 100%;">
@@ -156,18 +158,18 @@
             </div>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div style="width: 35px; height: 35px; border-radius: 10px; background: #e6fffa; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 10px;">✅</div>
-                    <p style="font-size: 12px; color: #718096;">งานที่ส่งแล้ว</p>
-                    <h3 id="stu-submitted-display">0 งาน</h3>
+                    <div style="width: 30px; height: 30px; border-radius: 8px; background: #e6fffa; display: flex; align-items: center; justify-content: center; font-size: 16px; margin-bottom: 8px;">✅</div>
+                    <p style="font-size: 11px; color: #718096;">งานที่ส่งแล้ว</p>
+                    <h3 id="stu-submitted-display" style="font-size: 16px;">0 งาน</h3>
                 </div>
                 <div class="stat-card">
-                    <div style="width: 35px; height: 35px; border-radius: 10px; background: #fff5f5; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 10px;">📌</div>
-                    <p style="font-size: 12px; color: #718096;">งานค้างส่ง</p>
-                    <h3 style="color: #e53e3e;" id="stu-pending-display">0 งาน</h3>
+                    <div style="width: 30px; height: 30px; border-radius: 8px; background: #fff5f5; display: flex; align-items: center; justify-content: center; font-size: 16px; margin-bottom: 8px;">📌</div>
+                    <p style="font-size: 11px; color: #718096;">งานค้างส่ง</p>
+                    <h3 style="color: #e53e3e; font-size: 16px;" id="stu-pending-display">0 งาน</h3>
                 </div>
             </div>
             <div class="work-list-section">
-                <div style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">📋 สถานะงานของฉัน</div>
+                <div style="font-size: 15px; font-weight: 600; margin-bottom: 12px;">📋 สถานะงานของฉัน</div>
                 <div class="work-card" id="stu-task-list"></div>
             </div>
         </div>
@@ -185,8 +187,8 @@
         <!-- ================= 5. หน้า แก้ไขข้อมูลนักเรียน (Admin) ================= -->
         <div id="page-admin-edit" class="page dashboard-wrapper">
             <div class="header header-admin">
-                <button type="button" class="btn-logout" style="right: auto; left: 20px; top: 25px;" onclick="goToPage('page-admin-list', false)">⬅ กลับ</button>
-                <p style="margin-top: 30px;">โหมดแก้ไขข้อมูล</p>
+                <button type="button" class="btn-logout" style="right: auto; left: 20px; top: 20px;" onclick="goToPage('page-admin-list', false)">⬅ กลับ</button>
+                <p style="margin-top: 25px;">โหมดแก้ไขข้อมูล</p>
                 <h2 id="adm-name-display">ชื่อนักเรียน</h2>
             </div>
             
@@ -194,21 +196,21 @@
 
             <div class="stats-grid">
                 <div class="stat-card">
-                    <p style="font-size: 12px; color: #718096;">แก้ไขงานส่งแล้ว</p>
+                    <p style="font-size: 11px; color: #718096;">แก้ไขงานส่งแล้ว</p>
                     <div style="display: flex; align-items: center; gap: 5px; margin-top: 5px;">
-                        <input type="number" id="edit-submitted" onchange="updateStat('submitted', this.value)"> <span style="font-size: 14px; font-weight: bold;">งาน</span>
+                        <input type="number" id="edit-submitted" onchange="updateStat('submitted', this.value)"> <span style="font-size: 13px; font-weight: bold;">งาน</span>
                     </div>
                 </div>
                 <div class="stat-card">
-                    <p style="font-size: 12px; color: #718096;">แก้ไขงานค้างส่ง</p>
+                    <p style="font-size: 11px; color: #718096;">แก้ไขงานค้างส่ง</p>
                     <div style="display: flex; align-items: center; gap: 5px; margin-top: 5px;">
-                        <input type="number" id="edit-pending" onchange="updateStat('pending', this.value)"> <span style="font-size: 14px; font-weight: bold; color: #e53e3e;">งาน</span>
+                        <input type="number" id="edit-pending" onchange="updateStat('pending', this.value)"> <span style="font-size: 13px; font-weight: bold; color: #e53e3e;">งาน</span>
                     </div>
                 </div>
             </div>
 
             <div class="work-list-section">
-                <div style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">📋 แก้ไขรายการงาน (กด - เพื่อลบ)</div>
+                <div style="font-size: 15px; font-weight: 600; margin-bottom: 12px;">📋 แก้ไขรายการงาน (กด - เพื่อลบ)</div>
                 <div class="work-card" id="adm-task-list"></div>
                 <button type="button" class="btn-add" onclick="addTask()">➕ เพิ่มงานใหม่</button>
             </div>
@@ -217,7 +219,6 @@
     </div>
 
     <script>
-        // ================= ข้อมูลเริ่มต้น (Database จำลอง) =================
         const defaultData = {
             "26490": {
                 id: "26490",
@@ -238,14 +239,13 @@
             }
         };
 
-        // แดกจับและเคลียร์ข้อมูลเก่าที่พังจากเวอร์ชันที่แล้วอัตโนมัติ
         let schoolData;
         try {
             let saved = JSON.parse(localStorage.getItem('schoolAppData'));
             if (saved && saved["26490"] && saved["26490"].tasks) {
                 schoolData = saved;
             } else {
-                schoolData = defaultData; // ถ้าข้อมูลผิดรูปแบบ ให้รีเซ็ตกลับเป็นค่าเริ่มต้น
+                schoolData = defaultData;
                 localStorage.setItem('schoolAppData', JSON.stringify(defaultData));
             }
         } catch(e) {
@@ -259,7 +259,6 @@
             localStorage.setItem('schoolAppData', JSON.stringify(schoolData));
         }
 
-        // ================= UI & Navigation =================
         function toggleMenu(menuId) {
             const menu = document.getElementById(menuId);
             if(menu.style.display === 'block') {
@@ -283,7 +282,7 @@
         function goToPage(pageId, scrollToTop = false) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
-            document.querySelectorAll('.menu-dropdown').forEach(m => m.style.display = 'none'); // ปิดเมนูทั้งหมดตอนเปลี่ยนหน้า
+            document.querySelectorAll('.menu-dropdown').forEach(m => m.style.display = 'none');
             if (scrollToTop) {
                 window.scrollTo(0, 0);
             }
@@ -297,7 +296,6 @@
             goToPage('page-login-student', true);
         }
 
-        // ================= Login System =================
         function handleLogin(e, type) {
             e.preventDefault();
             if (type === 'student') {
@@ -323,7 +321,6 @@
             }
         }
 
-        // ================= Student View Render =================
         function renderStudentDashboard(studentId) {
             const data = schoolData[studentId];
             document.getElementById('stu-name-display').innerText = data.name;
@@ -344,7 +341,6 @@
             });
         }
 
-        // ================= Admin Views & Logic =================
         function renderAdminStudentList() {
             const listContainer = document.getElementById('admin-student-list');
             listContainer.innerHTML = '';
